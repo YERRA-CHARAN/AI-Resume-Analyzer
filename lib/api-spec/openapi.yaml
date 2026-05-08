@@ -3,13 +3,19 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: AI Resume Analyzer API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: resumes
+    description: Resume upload and management
+  - name: analysis
+    description: AI analysis operations
+  - name: dashboard
+    description: Dashboard and stats
 paths:
   /healthz:
     get:
@@ -24,6 +30,148 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /resumes:
+    get:
+      operationId: listResumes
+      tags: [resumes]
+      summary: List all resumes for the current user
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of resumes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Resume"
+    post:
+      operationId: createResume
+      tags: [resumes]
+      summary: Upload a resume (base64 encoded)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateResumeBody"
+      responses:
+        "201":
+          description: Resume uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+
+  /resumes/{id}:
+    get:
+      operationId: getResume
+      tags: [resumes]
+      summary: Get a single resume by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Resume found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteResume
+      tags: [resumes]
+      summary: Delete a resume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /resumes/{id}/analyze:
+    post:
+      operationId: analyzeResume
+      tags: [analysis]
+      summary: Run AI analysis on a resume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalyzeResumeBody"
+      responses:
+        "200":
+          description: Analysis result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisResult"
+
+  /resumes/{id}/match:
+    post:
+      operationId: matchJobDescription
+      tags: [analysis]
+      summary: Match resume against a job description
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchJobBody"
+      responses:
+        "200":
+          description: Job match result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobMatchResult"
+
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get aggregate stats for the user's resumes
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +182,207 @@ components:
       required:
         - status
 
+    Resume:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: string
+        fileName:
+          type: string
+        fileType:
+          type: string
+        extractedText:
+          type: ["string", "null"]
+        overallScore:
+          type: ["integer", "null"]
+        analysisResult:
+          type: ["object", "null"]
+          additionalProperties: true
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - userId
+        - fileName
+        - fileType
+        - extractedText
+        - overallScore
+        - analysisResult
+        - createdAt
+        - updatedAt
+
+    CreateResumeBody:
+      type: object
+      properties:
+        userId:
+          type: string
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileContent:
+          type: string
+          description: Base64-encoded file content
+      required:
+        - userId
+        - fileName
+        - fileType
+        - fileContent
+
+    AnalyzeResumeBody:
+      type: object
+      properties:
+        jobDescription:
+          type: ["string", "null"]
+          description: Optional job description for targeted analysis
+
+    MatchJobBody:
+      type: object
+      properties:
+        jobDescription:
+          type: string
+      required:
+        - jobDescription
+
+    AnalysisResult:
+      type: object
+      properties:
+        overallScore:
+          type: integer
+        atsCompatibility:
+          type: integer
+        keywordMatch:
+          type: integer
+        formatting:
+          type: integer
+        skills:
+          type: integer
+        grammar:
+          type: integer
+        missingKeywords:
+          type: array
+          items:
+            type: string
+        weakPhrases:
+          type: array
+          items:
+            type: string
+        improvements:
+          type: array
+          items:
+            type: string
+        sectionAnalysis:
+          type: array
+          items:
+            $ref: "#/components/schemas/SectionScore"
+        strengths:
+          type: array
+          items:
+            type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+      required:
+        - overallScore
+        - atsCompatibility
+        - keywordMatch
+        - formatting
+        - skills
+        - grammar
+        - missingKeywords
+        - weakPhrases
+        - improvements
+        - sectionAnalysis
+        - strengths
+        - recommendations
+
+    SectionScore:
+      type: object
+      properties:
+        name:
+          type: string
+        score:
+          type: integer
+        feedback:
+          type: string
+        present:
+          type: boolean
+      required:
+        - name
+        - score
+        - feedback
+        - present
+
+    JobMatchResult:
+      type: object
+      properties:
+        matchScore:
+          type: integer
+        missingKeywords:
+          type: array
+          items:
+            type: string
+        matchedKeywords:
+          type: array
+          items:
+            type: string
+        skillsGap:
+          type: array
+          items:
+            type: string
+        suggestions:
+          type: array
+          items:
+            type: string
+        rewriteSuggestions:
+          type: array
+          items:
+            type: string
+      required:
+        - matchScore
+        - missingKeywords
+        - matchedKeywords
+        - skillsGap
+        - suggestions
+        - rewriteSuggestions
+
+    DashboardStats:
+      type: object
+      properties:
+        totalResumes:
+          type: integer
+        averageScore:
+          type: ["number", "null"]
+        bestScore:
+          type: ["integer", "null"]
+        latestScore:
+          type: ["integer", "null"]
+        scoreHistory:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScoreHistoryItem"
+      required:
+        - totalResumes
+        - averageScore
+        - bestScore
+        - latestScore
+        - scoreHistory
+
+    ScoreHistoryItem:
+      type: object
+      properties:
+        date:
+          type: string
+        score:
+          type: integer
+        fileName:
+          type: string
+      required:
+        - date
+        - score
+        - fileName

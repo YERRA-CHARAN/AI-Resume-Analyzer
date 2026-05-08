@@ -1,0 +1,336 @@
+ROLE:
+You are a world-class senior full-stack AI engineer, UI/UX architect, ATS systems expert, and SaaS product designer.
+
+TASK:
+Build a complete production-grade AI Resume Analyzer web application inspired by the UX, feature quality, flow, professionalism, and behavior of Enhancv Resume Scanner.
+
+IMPORTANT:
+The website MUST NOT be a clone or direct copy.
+Instead, it should be an original implementation with a premium modern UI and equivalent or better functionality.
+
+PRIMARY GOAL:
+Create a highly polished ATS Resume Scanner platform where users can upload resumes and receive AI-powered ATS analysis, scoring, keyword optimization, formatting checks, resume feedback, and actionable improvement suggestions.
+
+==================================================
+CORE PRODUCT REQUIREMENTS
+==================================================
+
+The application must include ALL of the following major systems:
+
+1. Resume Upload System
+2. ATS Resume Parsing Engine
+3. AI Resume Analysis Engine
+4. Resume Scoring System
+5. Keyword Gap Analyzer
+6. Resume Formatting Analyzer
+7. Skills Analyzer
+8. Grammar & Weak Verb Detection
+9. Resume Section Validation
+10. Actionable AI Suggestions
+11. Resume Dashboard UI
+12. Job Description Matching System
+13. Authentication System
+14. Resume History Storage
+15. Modern SaaS Landing Page
+16. Mobile Responsive UI
+17. Dark/Light Theme
+18. Secure File Processing
+19. Error Recovery System
+20. Loading & Progress States
+
+==================================================
+TECH STACK REQUIREMENTS
+==================================================
+
+Frontend:
+- React.js
+- Next.js latest stable version
+- Tailwind CSS
+- Framer Motion
+- TypeScript
+
+Backend:
+- Node.js
+- Express.js or Next.js API routes
+
+AI:
+- OpenAI API OR Gemini API
+- Modular prompt architecture
+- Structured JSON outputs only
+
+Database:
+- PostgreSQL or Supabase
+
+Authentication:
+- Clerk OR Firebase Auth
+
+File Processing:
+- PDF parsing support
+- DOCX parsing support
+
+Deployment:
+- Vercel frontend
+- Railway/Render backend
+
+==================================================
+UI/UX REQUIREMENTS
+==================================================
+
+The UI must feel:
+- premium
+- modern
+- minimal
+- fast
+- enterprise-grade
+
+Design inspiration:
+- Enhancv
+- Linear
+- Stripe
+- Framer
+- Notion
+
+MANDATORY UI FEATURES:
+- Animated gradients
+- Glassmorphism cards
+- Smooth hover animations
+- Responsive layouts
+- Sticky navbar
+- Elegant upload section
+- Drag & drop upload
+- Progress animations
+- Skeleton loaders
+- Beautiful charts
+- ATS score circle visualization
+- AI suggestion cards
+- Responsive sidebar dashboard
+
+DO NOT:
+- use outdated Bootstrap styling
+- use generic templates
+- use ugly colors
+- use unaligned spacing
+- use poor typography
+
+Typography:
+- Inter font
+- Proper spacing scale
+- Consistent design system
+
+==================================================
+LANDING PAGE REQUIREMENTS
+==================================================
+
+Create a modern SaaS landing page containing:
+
+1. Hero Section
+- headline
+- subheadline
+- upload CTA
+- animated background
+- trust indicators
+
+2. Resume Upload Area
+- drag and drop
+- file validation
+- upload progress
+- supported formats display
+
+3. Features Section
+Include cards for:
+- ATS Analysis
+- Keyword Optimization
+- Resume Scoring
+- Skill Analysis
+- AI Suggestions
+- Job Match Analysis
+
+4. How It Works Section
+Step-by-step animated workflow:
+1. Upload resume
+2. AI scans content
+3. ATS checks run
+4. Get detailed report
+
+5. Testimonials Section
+
+6. FAQ Section
+
+7. Footer
+
+==================================================
+ATS ANALYSIS ENGINE REQUIREMENTS
+==================================================
+
+The ATS engine must analyze:
+
+- Resume readability
+- ATS compatibility
+- Standard section detection
+- Contact information
+- Resume length
+- Keyword relevance
+- Formatting quality
+- Bullet point quality
+- Weak verbs
+- Repetition
+- Quantified achievements
+- Skills relevance
+- Job title alignment
+- File format quality
+
+The system must generate:
+- ATS score out of 100
+- Detailed category scores
+- Actionable improvements
+- Missing keywords
+- Suggested enhancements
+
+==================================================
+AI ANALYSIS OUTPUT REQUIREMENTS
+==================================================
+
+The AI MUST return structured JSON.
+
+Example structure:
+
+{
+  "overallScore": 84,
+  "atsCompatibility": 90,
+  "keywordMatch": 76,
+  "formatting": 88,
+  "skills": 80,
+  "grammar": 91,
+  "missingKeywords": [],
+  "weakPhrases": [],
+  "improvements": [],
+  "sectionAnalysis": [],
+  "strengths": [],
+  "recommendations": []
+}
+
+==================================================
+DASHBOARD REQUIREMENTS
+==================================================
+
+Create a beautiful dashboard containing:
+
+- ATS Score Circle
+- Resume Strength Meter
+- Keyword Match Panel
+- Missing Skills Section
+- Resume Improvement Checklist
+- Resume Preview Panel
+- AI Suggestions Feed
+- Charts and analytics
+- Resume history
+- Export report button
+
+==================================================
+JOB DESCRIPTION MATCHING FEATURE
+==================================================
+
+Allow users to:
+- paste job descriptions
+- compare resume against job
+- calculate match percentage
+- detect missing keywords
+- suggest optimization improvements
+
+Generate:
+- Match score
+- Missing keywords
+- AI rewrite suggestions
+- Skills gap analysis
+
+==================================================
+SECURITY & STABILITY REQUIREMENTS
+==================================================
+
+MANDATORY:
+- robust error boundaries
+- safe API handling
+- rate limiting
+- file size validation
+- unsupported file detection
+- loading states
+- retry mechanisms
+- secure environment variable handling
+- backend validation
+- proper async handling
+
+The website MUST:
+- not crash
+- not freeze
+- not produce undefined errors
+- gracefully handle failures
+- handle invalid uploads properly
+
+==================================================
+CODE QUALITY REQUIREMENTS
+==================================================
+
+Generate:
+- production-grade folder structure
+- reusable components
+- modular architecture
+- clean code
+- comments where needed
+- scalable architecture
+- optimized rendering
+- proper API abstraction
+- responsive layouts
+
+Avoid:
+- duplicated code
+- hardcoded values
+- messy component structure
+- inline styles
+- poor state management
+
+==================================================
+EXTRA FEATURES
+==================================================
+
+Add:
+- dark mode
+- resume history
+- export PDF report
+- shareable analysis link
+- AI rewrite suggestions
+- loading animations
+- onboarding flow
+- profile settings
+- premium-style UX polish
+
+==================================================
+FINAL OUTPUT REQUIREMENTS
+==================================================
+
+Generate:
+1. Full frontend
+2. Full backend
+3. API routes
+4. Database schema
+5. AI prompts
+6. Component structure
+7. Folder structure
+8. Deployment instructions
+9. Environment variables
+10. README.md
+11. Responsive layouts
+12. Dummy data
+13. Error handling
+14. State management
+15. Production-ready architecture
+
+IMPORTANT:
+- Ensure zero TypeScript errors
+- Ensure zero import issues
+- Ensure zero hydration issues
+- Ensure clean builds
+- Ensure responsive design
+- Ensure accessibility support
+- Ensure optimized performance
+
+The final result should feel like a real startup SaaS platform built by a senior engineering team.
