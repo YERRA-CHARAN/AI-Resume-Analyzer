@@ -225,71 +225,112 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Resume List */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Recent Resumes</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isLoadingResumes ? (
-                  <div className="space-y-4">
-                    {[1, 2, 3].map(i => <Skeleton key={i} className="h-20 w-full rounded-xl" />)}
-                  </div>
-                ) : resumes && resumes.length > 0 ? (
-                  <div className="space-y-4">
-                    {resumes.map(resume => (
-                      <div key={resume.id} className="flex items-center justify-between p-4 rounded-xl border bg-card hover:bg-muted/30 transition-colors group">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                            <FileText className="w-6 h-6 text-primary" />
-                          </div>
-                          <div>
-                            <Link href={`/analysis/${resume.id}`} className="font-semibold hover:text-primary transition-colors line-clamp-1">
-                              {resume.fileName}
-                            </Link>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {format(new Date(resume.createdAt), "MMM d, yyyy • h:mm a")}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          {resume.overallScore ? (
-                            <div className="hidden sm:flex items-center gap-2">
-                              <span className="text-sm font-medium text-muted-foreground">Score</span>
-                              <span className={`font-bold px-2 py-1 rounded-md text-xs ${
-                                resume.overallScore >= 80 ? 'bg-green-500/10 text-green-600 dark:text-green-400' :
-                                resume.overallScore >= 60 ? 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400' :
-                                'bg-red-500/10 text-red-600 dark:text-red-400'
-                              }`}>
-                                {Math.round(resume.overallScore)}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-md">Pending</span>
-                          )}
-                          <div className="flex items-center">
-                            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => handleDelete(resume.id)}>
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                            <Link href={`/analysis/${resume.id}`}>
-                              <Button variant="ghost" size="icon" className="text-muted-foreground">
-                                <ChevronRight className="w-5 h-5" />
-                              </Button>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12 border-2 border-dashed rounded-xl">
-                    <AlertCircle className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
-                    <h3 className="text-lg font-medium text-foreground mb-1">No resumes yet</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Upload your first resume to get started</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+{/* Resume List */}
+<Card>
+  <CardHeader>
+    <CardTitle className="text-lg">Recent Resumes</CardTitle>
+  </CardHeader>
+
+  <CardContent>
+    {isLoadingResumes ? (
+      <div className="space-y-4">
+        {[1, 2, 3].map((i) => (
+          <Skeleton key={i} className="h-20 w-full rounded-xl" />
+        ))}
+      </div>
+    ) : Array.isArray(resumes) && resumes.length > 0 ? (
+      <div className="space-y-4">
+        {resumes.map((resume) => (
+          <div
+            key={resume.id}
+            className="flex items-center justify-between p-4 rounded-xl border bg-card hover:bg-muted/30 transition-colors group"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <FileText className="w-6 h-6 text-primary" />
+              </div>
+
+              <div>
+                <Link
+                  href={`/analysis/${resume.id}`}
+                  className="font-semibold hover:text-primary transition-colors line-clamp-1"
+                >
+                  {resume.fileName}
+                </Link>
+
+                <p className="text-xs text-muted-foreground mt-1">
+                  {format(
+                    new Date(resume.createdAt),
+                    "MMM d, yyyy • h:mm a"
+                  )}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              {resume.overallScore ? (
+                <div className="hidden sm:flex items-center gap-2">
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Score
+                  </span>
+
+                  <span
+                    className={`font-bold px-2 py-1 rounded-md text-xs ${
+                      resume.overallScore >= 80
+                        ? "bg-green-500/10 text-green-600 dark:text-green-400"
+                        : resume.overallScore >= 60
+                        ? "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400"
+                        : "bg-red-500/10 text-red-600 dark:text-red-400"
+                    }`}
+                  >
+                    {Math.round(resume.overallScore)}
+                  </span>
+                </div>
+              ) : (
+                <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-md">
+                  Pending
+                </span>
+              )}
+
+              <div className="flex items-center">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => handleDelete(resume.id)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+
+                <Link href={`/analysis/${resume.id}`}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="text-center py-12 border-2 border-dashed rounded-xl">
+        <AlertCircle className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
+
+        <h3 className="text-lg font-medium text-foreground mb-1">
+          No resumes yet
+        </h3>
+
+        <p className="text-sm text-muted-foreground mb-4">
+          Upload your first resume to get started
+        </p>
+      </div>
+    )}
+  </CardContent>
+</Card>
           </div>
         </div>
       </main>
