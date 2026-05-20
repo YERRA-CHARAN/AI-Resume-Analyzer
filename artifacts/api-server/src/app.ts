@@ -1,7 +1,6 @@
 import express, { type Express } from "express";
 import cors from "cors";
-import * as pinoHttpModule from "pino-http";
-import type { IncomingMessage, ServerResponse } from "http";
+import pinoHttp from "pino-http";
 import { clerkMiddleware } from "@clerk/express";
 import { publishableKeyFromHost } from "@clerk/shared/keys";
 import router from "./routes";
@@ -12,22 +11,20 @@ import {
   getClerkProxyHost,
 } from "./middlewares/clerkProxyMiddleware";
 
-const pinoHttp = (pinoHttpModule.default ?? pinoHttpModule) as typeof pinoHttpModule.default;
-
 const app: Express = express();
 
 app.use(
   pinoHttp({
     logger,
     serializers: {
-      req(req: IncomingMessage & { id?: unknown; url?: string }) {
+      req(req) {
         return {
           id: req.id,
           method: req.method,
           url: req.url?.split("?")[0],
         };
       },
-      res(res: ServerResponse) {
+      res(res) {
         return {
           statusCode: res.statusCode,
         };
